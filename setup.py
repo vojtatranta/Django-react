@@ -10,6 +10,7 @@ setup(
     author='Vojtěch Tranta',
     author_email='vojta.tranta@gmail.com',
     license='MIT',
+    package_dir={'django_react': 'django_react'},
     classifiers=[
         'Development Status :: 3 - Alpha',
 

@@ -5,13 +5,16 @@ from Naked.toolshed.shell import muterun_js
 from django.template import TemplateSyntaxError
 from django.template.response import TemplateResponse
 
-from jsonizer import jsonize
+from .jsonizer import jsonize
+
+import config
 
 
 class ReactResponse(TemplateResponse):
 
     use_tcp = True
-    react_renderer_script_path = ''
+    react_renderer_script_path = config.REACT_RENDERING_SCRIPT
+    node_server_url = config.NODE_SERVER_URL
     template = None
 
     @property
@@ -31,8 +34,8 @@ class ReactResponse(TemplateResponse):
         return node_request.stdout
 
     def get_html_from_node_server(self):
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        request = requests.post('http://localhost:3333', jsonize(self.context_data), headers=headers)
+        request = requests.post(self.node_server_url, jsonize(self.context_data), headers={
+            'Content-type': 'application/json', 'Accept': 'text/plain'})
         if request.status_code > 500:
             raise TemplateSyntaxError(request.text)
         else:
