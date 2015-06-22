@@ -28,5 +28,5 @@ setup(
 
     packages=find_packages(exclude=['js']),
 
-    install_requires=['requests', 'Naked'],
+    install_requires=['django', 'requests', 'Naked'],
 )
